@@ -1,0 +1,16 @@
+{
+    "executive_summary": "A high-severity brute force attack targeting 'prod-server-01' was identified originating from a private IP address (192.168.7.45), linked to the nation-state threat actor APT-41. This incident poses significant risk due to the involvement of a known nation-state actor and the presence of exploitable vulnerabilities on the targeted server.",
+    "alert_details": "Original alert SOC-2024-001 reported a brute force SSH attempt using username 'root' with 455 login attempts on port 4444, from IP 192.168.7.45 against 'prod-server-01'. Additional alerts within a 24-hour window show related activities: a port scan and another brute force attempt on separate targets.",
+    "triage_assessment": "Given the private nature of the source IP, the alert likely indicates either a misconfiguration exposing internal resources externally or an internal threat vector. Coupled with the number of attempts and lack of intelligence on the IP, this confirms a true positive incident.",
+    "investigation_findings": "Correlated with APT-41 operations, the attack aligns with known tactics involving Credential Access via brute force (MITRE Technique T1110). Furthermore, the server 'prod-server-01' hosts unpatched vulnerabilities CVE-2023-34532 and CVE-2023-68394, heightening the risk profile.",
+    "mitre_mapping": "Tactic: Credential Access, Technique: Brute Force (T1110)",
+    "containment_actions": [
+        "Monitor and log"
+    ],
+    "timeline": [
+        "10:22 UTC - Brute force attempt detected on 'prod-server-01'",
+        "02:45 UTC - Port scan detected on 'prod-server-02'",
+        "03:10 UTC - Brute force attempt on 'dc-01'"
+    ],
+    "severity": "High"
+}

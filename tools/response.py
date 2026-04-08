@@ -1,10 +1,14 @@
-import pydantic
-
 # async function but currently no await because it's just returning mock data. 
 # In production, these would likely involve async calls to databases or external APIs.
 
 # Checks if traffic should have been blocked and suggests rules
-@agent.tool
+
+from pydantic_ai import RunContext
+
+
+from agents import report_agent
+
+@report_agent.tool
 async def check_firewall_rules(ctx: RunContext, source_ip: str, destination_port: int) -> dict:
     """
     Checks existing firewall rules for a given source IP and destination port.
@@ -19,7 +23,7 @@ async def check_firewall_rules(ctx: RunContext, source_ip: str, destination_port
     }
 
 #  Links related alerts together to detect coordinated attacks
-@agent.tool
+@report_agent.tool
 async def correlate_alerts(ctx: RunContext, alert_ids: str, timeframe_hours:int) -> list:
     """
     Correlates an alert with other recent alerts within a timeframe to identify patterns.
@@ -44,7 +48,7 @@ async def correlate_alerts(ctx: RunContext, alert_ids: str, timeframe_hours:int)
     ]
 
 # Returns immediate and short term response steps based on severity
-@agent.tool
+@report_agent.tool
 async def get_containment_actions(ctx:RunContext, severity:str, attack_type:str) -> dict:
     """
     Gets recommended containment actions based on the severity and type of attack.

@@ -1,10 +1,19 @@
-import pydantic
+# agent.tool initially yellow underline because need an agent object to exist first
+
+from pydantic_ai import RunContext
 
 # async function but currently no await because it's just returning mock data. 
 # In production, these would likely involve async calls to databases or external APIs.
 
+# MITRE TTP - Tactics, Techniques, Procedures within the MITRE ATT&FK framework
+# documents specific behaviors, methods and strategies that cyber adversaries use to attack systems
+# instead of focusing on static indications like IP add/file hashes (that is easily to change)
+# use TTPS to focus on adversary behavior
 #  Maps an attack type to MITRE ATT&CK tactics and techniques
-@agent.tool
+
+from agents import investigation_agent
+
+@investigation_agent.tool
 async def get_mitre_ttp(ctx: RunContext, event_type: str) -> dict:
     """Gets the MITRE ATT&CK TTP for a given event type. 
     Use this to understand the tactics and techniques associated with a specific type of malicious activity.
@@ -22,7 +31,7 @@ async def get_mitre_ttp(ctx: RunContext, event_type: str) -> dict:
     return mapping.get(event_type, {})
 
 # Flags if an attack pattern matches nation state actors
-@agent.tool
+@investigation_agent.tool
 async def check_nation_state_indicators(ctx:RunContext, ip: str, ttp: str) -> dict:
     """
     Checks if an IP or TTP matches known nation state threat actor patterns.

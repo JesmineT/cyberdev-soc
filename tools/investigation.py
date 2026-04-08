@@ -1,11 +1,15 @@
-import pydantic
-
 # async function but currently no await because it's just returning mock data. 
 # In production, these would likely involve async calls to databases or external APIs.
 
-
+# tor - the onion router - free open source software netwrok for anonymous communications and internet browsing (privacy tool)
 # Checks if an IP is malicious, part of TOR, or has abuse history
-@agent.tool
+
+from pydantic_ai import RunContext
+
+
+from agents import triage_agent
+
+@triage_agent.tool
 async def lookup_ip_reputation(ctx: RunContext, ip: str) -> dict:
     """Looks up the reputation of an IP address. 
     Use this to check if a source IP is known malicious, 
@@ -25,7 +29,7 @@ async def lookup_ip_reputation(ctx: RunContext, ip: str) -> dict:
     return mock_data.get(ip, {"reputation": "unknown"})
 
 # Finds where an IP is physically located and if it's using VPN/proxy
-@agent.tool
+@triage_agent.tool
 async def get_geolocation(ctx: RunContext, ip: str) -> dict:
     """Gets the geolocation information for a given IP address. 
     Use this to understand where an IP address is located, which can provide context for its activity.
@@ -47,8 +51,10 @@ async def get_geolocation(ctx: RunContext, ip: str) -> dict:
     }
     return mock_data.get(ip, {"country": "unknown"})
 
+# API - advanced persistent threat
+# long term atack intruder gains access to network and remains undetected for an extended period
 # Identifies if an IP/domain/hash is linked to known APT groups like APT28
-@agent.tool
+@triage_agent.tool
 async def get_threat_intel(ctx: RunContext, indicator: str) -> dict:
     """Gets threat intelligence for a given indicator (IP, domain, hash). 
     Use this to enrich your understanding of an indicator's potential maliciousness.

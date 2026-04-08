@@ -1,10 +1,14 @@
-import pydantic
-
 # async function but currently no await because it's just returning mock data. 
 # In production, these would likely involve async calls to databases or external APIs.
 
 # Pulls recent log entries from a host to find suspicious activity
-@agent.tool
+
+from pydantic_ai import RunContext
+
+
+from agents import investigation_agent
+
+@investigation_agent.tool
 async def search_logs(ctx: RunContext, hostname: str, timeframe_minutes: int) -> list:
     """Searches logs for a given hostname within a specified timeframe. 
     Use this to find relevant log entries that may indicate malicious activity.
@@ -17,7 +21,7 @@ async def search_logs(ctx: RunContext, hostname: str, timeframe_minutes: int) ->
     ]
 
 # Checks a user's login history and flags unusual patterns
-@agent.tool
+@investigation_agent.tool
 async def get_user_behavior(ctx: RunContext, username: str) -> dict:
     """
     Gets recent behavior patterns for a given username. 
@@ -33,7 +37,7 @@ async def get_user_behavior(ctx: RunContext, username: str) -> dict:
     }
 
 # Rates how critical a host is to the business if compromised
-@agent.tool
+@investigation_agent.tool
 async def check_asset_criticality(ctx: RunContext, hostname:str) -> dict:
     """Checks the criticality of an asset based on its hostname. 
     Use this to prioritize your response based on how critical the asset is to your operations.

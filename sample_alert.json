@@ -1,0 +1,15 @@
+{
+    "alert_id": "SOC-2024-001",
+    "timestamp": "2026-04-05T010:22:11Z",
+    "source_ip": "192.168.7.45",
+    "destination_ip": "10.0.0.25",
+    "destination_port": 4444,
+    "protocol": "SSH",
+    "event_type": "brute_force_attempt",
+    "attempts": 455,
+    "username_tried": "root",
+    "hostname": "prod-server-01",
+    "country_of_origin": "Unknown",
+    "severity_raw": "high"
+}
+
